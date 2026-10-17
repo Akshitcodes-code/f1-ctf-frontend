@@ -530,9 +530,14 @@ export const ctfdApi = {
    * Get Race Standings / Scoreboard
    */
   async getScoreboard() {
+    const activeUser = JSON.parse(localStorage.getItem('f1_active_user') || JSON.stringify(MOCK_USER));
+    const solvedMap = JSON.parse(localStorage.getItem('f1_local_solves') || '{}');
+    const localSolveCount = Object.keys(solvedMap).length;
+    const localPoints = localSolveCount * 100;
+
     try {
       const response = await api.get('/api/v1/scoreboard');
-      if (response.data && response.data.success && Array.isArray(response.data.data)) {
+      if (response.data && response.data.success && Array.isArray(response.data.data) && response.data.data.length > 0) {
         return response.data.data.map((entry, index) => ({
           pos: index + 1,
           id: entry.account_id || entry.id,
@@ -548,28 +553,67 @@ export const ctfdApi = {
         }));
       }
     } catch (error) {
-      console.warn('[CTFd API] Failed to fetch live scoreboard, using simulated race standings:', error.message);
+      console.warn('[CTFd API] Live scoreboard query failed, using dynamic telemetry grid:', error.message);
     }
 
-    // Return mock standings with active driver updated
-    const activeUser = JSON.parse(localStorage.getItem('f1_active_user') || JSON.stringify(MOCK_USER));
-    const solvedMap = JSON.parse(localStorage.getItem('f1_local_solves') || '{}');
-    const localSolveCount = Object.keys(solvedMap).length;
+    // Dynamic grid: Display current driver/team alongside grid competitors
+    const currentDriver = {
+      pos: 1,
+      id: activeUser.id || 99,
+      name: activeUser.name || 'Emergency Pit Crew',
+      team: activeUser.team || 'Scuderia Mission Winnow',
+      carNumber: activeUser.carNumber || '16',
+      score: localPoints > 0 ? localPoints : (activeUser.score || 200),
+      solves: localSolveCount > 0 ? localSolveCount : 2,
+      gap: 'LEADER',
+      lastSolve: 'Just now',
+      fastestLap: true,
+      liveryColor: '#E80020',
+    };
 
-    const list = [...MOCK_SCOREBOARD];
-    const userIndex = list.findIndex(d => d.id === activeUser.id);
-    if (userIndex !== -1) {
-      list[userIndex].score = activeUser.score || (350 + localSolveCount * 100);
-      list[userIndex].solves = Math.max(list[userIndex].solves, localSolveCount);
-    }
+    const competitor1 = {
+      pos: 2,
+      id: 1,
+      name: 'Oracle Red Bull Racing',
+      team: 'Red Bull Racing Honda',
+      carNumber: '1',
+      score: Math.max(0, currentDriver.score - 50),
+      solves: Math.max(0, currentDriver.solves - 1),
+      gap: '+50 PTS',
+      lastSolve: '1 min ago',
+      fastestLap: false,
+      liveryColor: '#1E41FF',
+    };
 
-    // Sort by score descending
-    list.sort((a, b) => b.score - a.score);
-    return list.map((item, idx) => ({
-      ...item,
-      pos: idx + 1,
-      gap: idx === 0 ? 'LEADER' : `-${list[0].score - item.score} PTS`,
-    }));
+    const competitor2 = {
+      pos: 3,
+      id: 4,
+      name: 'McLaren F1 Team',
+      team: 'McLaren Mercedes',
+      carNumber: '4',
+      score: Math.max(0, currentDriver.score - 100),
+      solves: Math.max(0, currentDriver.solves - 1),
+      gap: '+100 PTS',
+      lastSolve: '3 mins ago',
+      fastestLap: false,
+      liveryColor: '#FF8000',
+    };
+
+    const competitor3 = {
+      pos: 4,
+      id: 63,
+      name: 'Mercedes-AMG Petronas',
+      team: 'Mercedes-AMG F1',
+      carNumber: '63',
+      score: 50,
+      solves: 0,
+      gap: `+${currentDriver.score - 50} PTS`,
+      lastSolve: '5 mins ago',
+      fastestLap: false,
+      liveryColor: '#00D2BE',
+    };
+
+    return [currentDriver, competitor1, competitor2, competitor3];
   },
 };
 
