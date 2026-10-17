@@ -556,64 +556,27 @@ export const ctfdApi = {
       console.warn('[CTFd API] Live scoreboard query failed, using dynamic telemetry grid:', error.message);
     }
 
-    // Dynamic grid: Display current driver/team alongside grid competitors
-    const currentDriver = {
-      pos: 1,
-      id: activeUser.id || 99,
-      name: activeUser.name || 'Emergency Pit Crew',
-      team: activeUser.team || 'Scuderia Mission Winnow',
-      carNumber: activeUser.carNumber || '16',
-      score: localPoints > 0 ? localPoints : (activeUser.score || 200),
-      solves: localSolveCount > 0 ? localSolveCount : 2,
-      gap: 'LEADER',
-      lastSolve: 'Just now',
-      fastestLap: true,
-      liveryColor: '#E80020',
-    };
+    // If real teams exist in CTFd, return only them
+    // Otherwise, if the local user has solved challenges, show ONLY the active player/team
+    if (localSolveCount > 0) {
+      const currentDriver = {
+        pos: 1,
+        id: activeUser.id || 1,
+        name: activeUser.name || 'Your Team',
+        team: activeUser.team || 'Pit Wall Engineer',
+        carNumber: activeUser.carNumber || '16',
+        score: localPoints,
+        solves: localSolveCount,
+        gap: 'LEADER',
+        lastSolve: 'Just now',
+        fastestLap: true,
+        liveryColor: '#E10600',
+      };
+      return [currentDriver];
+    }
 
-    const competitor1 = {
-      pos: 2,
-      id: 1,
-      name: 'Oracle Red Bull Racing',
-      team: 'Red Bull Racing Honda',
-      carNumber: '1',
-      score: Math.max(0, currentDriver.score - 50),
-      solves: Math.max(0, currentDriver.solves - 1),
-      gap: '+50 PTS',
-      lastSolve: '1 min ago',
-      fastestLap: false,
-      liveryColor: '#1E41FF',
-    };
-
-    const competitor2 = {
-      pos: 3,
-      id: 4,
-      name: 'McLaren F1 Team',
-      team: 'McLaren Mercedes',
-      carNumber: '4',
-      score: Math.max(0, currentDriver.score - 100),
-      solves: Math.max(0, currentDriver.solves - 1),
-      gap: '+100 PTS',
-      lastSolve: '3 mins ago',
-      fastestLap: false,
-      liveryColor: '#FF8000',
-    };
-
-    const competitor3 = {
-      pos: 4,
-      id: 63,
-      name: 'Mercedes-AMG Petronas',
-      team: 'Mercedes-AMG F1',
-      carNumber: '63',
-      score: 50,
-      solves: 0,
-      gap: `+${currentDriver.score - 50} PTS`,
-      lastSolve: '5 mins ago',
-      fastestLap: false,
-      liveryColor: '#00D2BE',
-    };
-
-    return [currentDriver, competitor1, competitor2, competitor3];
+    // No solves yet
+    return [];
   },
 };
 
