@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --f1-red: #E10600;
+  --f1-red-hover: #b80500;
+  --f1-red-glow: rgba(225, 6, 0, 0.45);
+  --f1-dark: #15151E;
+  --f1-black: #0B0B11;
+  --f1-card-bg: #1A1A26;
+  --f1-card-hover: #222233;
+  --f1-surface: #20202F;
+  --f1-border: #2E2E42;
+  --f1-border-highlight: #454563;
+  --f1-gold: #FFD700;
+  --f1-silver: #C0C0C0;
+  --f1-bronze: #CD7F32;
+  --f1-white: #FFFFFF;
+  --f1-muted: #8F8FA3;
+  --f1-green: #00D26A;
+  --f1-yellow: #FFB800;
+  --f1-purple: #A855F7;
+  --f1-cyan: #00E5FF;
+  
+  --font-racing: 'Orbitron', -apple-system, sans-serif;
+  --font-tech: 'Chakra Petch', sans-serif;
+  --font-body: 'Titillium Web', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--f1-dark);
+  color: var(--f1-white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Carbon Fiber Texture Pattern */
+.carbon-fiber-bg {
+  background: 
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color: #12121A;
+  background-size: 16px 16px;
+}
+
+/* Speed Lines Overlay */
+.speed-lines {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 20px,
+    rgba(225, 6, 0, 0.03) 20px,
+    rgba(225, 6, 0, 0.03) 40px
+  );
+}
+
+/* Checkered Flag Pattern */
+.checkered-pattern {
+  background-image: 
+    linear-gradient(45deg, #15151E 25%, transparent 25%), 
+    linear-gradient(-45deg, #15151E 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #15151E 75%), 
+    linear-gradient(-45deg, transparent 75%, #15151E 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-color: #232332;
+}
+
+/* Red Racing Curbs */
+.curb-strip {
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--f1-red) 0px,
+    var(--f1-red) 16px,
+    #FFFFFF 16px,
+    #FFFFFF 32px
+  );
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--f1-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333348;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--f1-red);
+}
+
+/* Skew styling for motorsport dynamic feel */
+.skew-card {
+  transform: skewX(-5deg);
+}
+
+.unskew {
+  transform: skewX(5deg);
+}
+
+/* Glow Utilities */
+.glow-red {
+  box-shadow: 0 0 15px var(--f1-red-glow);
+}
+
+.glow-red-text {
+  text-shadow: 0 0 12px rgba(225, 6, 0, 0.7);
+}
+
+.glow-gold-text {
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+/* Racing Button Styles */
+.btn-f1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--f1-red);
+  color: var(--f1-white);
+  border: none;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-racing);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  text-decoration: none;
+}
+
+.btn-f1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: 0.5s;
+}
+
+.btn-f1:hover::before {
+  left: 100%;
+}
+
+.btn-f1:hover {
+  background: var(--f1-red-hover);
+  box-shadow: 0 0 25px var(--f1-red-glow);
+  transform: translateY(-2px);
+}
+
+.btn-f1-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--f1-white);
+  border: 1px solid var(--f1-border-highlight);
+  padding: 0.7rem 1.6rem;
+  font-family: var(--font-racing);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  text-decoration: none;
+}
+
+.btn-f1-outline:hover {
+  border-color: var(--f1-red);
+  color: var(--f1-red);
+  background: rgba(225, 6, 0, 0.08);
+}
+
+/* Animations */
+@keyframes speedPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.animate-pulse-slow {
+  animation: speedPulse 3s infinite ease-in-out;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

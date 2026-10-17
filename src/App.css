@@ -1,0 +1,235 @@
+/* App Container Layout */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--f1-dark);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* F1 Badge & Compound Badges */
+.compound-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-family: var(--font-racing);
+  font-weight: 900;
+  font-size: 0.85rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 2px solid;
+}
+
+.compound-soft {
+  background: #E10600;
+  color: #FFFFFF;
+  border-color: #FF5A5A;
+}
+
+.compound-medium {
+  background: #FFD700;
+  color: #000000;
+  border-color: #FFF275;
+}
+
+.compound-hard {
+  background: #E0E0E0;
+  color: #000000;
+  border-color: #FFFFFF;
+}
+
+.compound-wet {
+  background: #0080FF;
+  color: #FFFFFF;
+  border-color: #70B5FF;
+}
+
+.compound-intermediate {
+  background: #00D26A;
+  color: #000000;
+  border-color: #79FFA8;
+}
+
+/* F1 Telemetry Sector Bars */
+.sector-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sector-purple {
+  background: rgba(168, 85, 247, 0.2);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.5);
+}
+
+.sector-green {
+  background: rgba(0, 210, 106, 0.2);
+  color: #4ADE80;
+  border: 1px solid rgba(0, 210, 106, 0.5);
+}
+
+.sector-yellow {
+  background: rgba(255, 184, 0, 0.2);
+  color: #FCD34D;
+  border: 1px solid rgba(255, 184, 0, 0.5);
+}
+
+/* F1 Race Lights Animation Container */
+.starting-lights-container {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.25rem 2rem;
+  background: #0A0A0F;
+  border: 2px solid var(--f1-border);
+  border-radius: 8px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.f1-light-gantry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #12121A;
+  border-radius: 6px;
+  border: 1px solid #252538;
+}
+
+.f1-light-bulb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #2A0808;
+  border: 2px solid #1A1A24;
+  transition: all 0.15s ease-in-out;
+}
+
+.f1-light-bulb.active {
+  background-color: #FF0000;
+  box-shadow: 0 0 20px #FF0000, 0 0 40px #FF2222;
+  border-color: #FFAAAA;
+}
+
+/* F1 Pit Stop Chain Line / Progress bar */
+.pitstop-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 2.5rem 0;
+  width: 100%;
+}
+
+.pitstop-timeline::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--f1-border);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.pitstop-timeline-progress {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--f1-red), #FF5555);
+  box-shadow: 0 0 12px var(--f1-red-glow);
+  transform: translateY(-50%);
+  z-index: 1;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Timing Tower Board */
+.timing-tower {
+  background: rgba(17, 17, 24, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--f1-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.timing-row {
+  display: grid;
+  grid-template-columns: 50px 70px 1fr 140px 110px 120px;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+  font-family: var(--font-tech);
+}
+
+.timing-row:hover {
+  background-color: rgba(225, 6, 0, 0.08);
+}
+
+.timing-row.leader {
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.12) 0%, transparent 100%);
+  border-left: 4px solid var(--f1-gold);
+}
+
+.timing-header {
+  font-family: var(--font-racing);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--f1-muted);
+  background: #0E0E15;
+  border-bottom: 2px solid var(--f1-red);
+}
+
+/* Footer / Pit Lane Wall info */
+.pitwall-footer {
+  background: #0A0A0F;
+  border-top: 1px solid var(--f1-border);
+  padding: 1.5rem 2rem;
+  color: var(--f1-muted);
+  font-size: 0.85rem;
+}
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .timing-row {
+    grid-template-columns: 40px 50px 1fr 90px 90px;
+  }
+  .timing-hide-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .timing-row {
+    grid-template-columns: 35px 45px 1fr 80px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.85rem;
+  }
+  .starting-lights-container {
+    gap: 0.5rem;
+    padding: 0.85rem;
+  }
+  .f1-light-bulb {
+    width: 16px;
+    height: 16px;
+  }
+}
